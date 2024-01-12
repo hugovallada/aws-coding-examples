@@ -17,14 +17,12 @@ func handler(ctx context.Context) error {
 	}
 	clientEcs := ecs.NewFromConfig(cfg)
 	clusterName := "hugovallada"
-	_, err = clientEcs.DeleteCluster(ctx, &ecs.DeleteClusterInput{
-		Cluster: aws.String(clusterName),
-	})
-	if err != nil {
+	ecsCluster := &ecs.DeleteClusterInput{Cluster: aws.String(clusterName)}
+	if _, err = clientEcs.DeleteCluster(ctx, ecsCluster); err != nil {
 		return err
 	}
 	slog.Info("ECS Cluster", clusterName, "was successfully deleted.")
-	return nil
+	return err
 }
 
 func main() {
