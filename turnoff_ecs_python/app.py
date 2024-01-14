@@ -1,16 +1,17 @@
 import boto3
+from logging import info
 
 
 def lambda_handler(event, context):
     ecs_client = boto3.client('ecs')
-    cluster_name = 'cluster'
-    service_name = 'service'
+    service_arn = 'service_arn'
 
     response = ecs_client.update_service(
-        cluster=cluster_name,
-        service=service_name,
+        service=service_arn,
         desiredCount=0
     )
+
+    info(f'O serviço {service_arn} foi desligado!')
 
     return {
         'statusCode': 200,
